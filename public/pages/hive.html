@@ -1,0 +1,249 @@
+<div id="hive-page">
+
+    <h1>Hive</h1>
+
+    <!-- Tab bar — data-tab / data-panel hooks are wired up by scripts/hive.js -->
+    <div class="tab-bar" id="hive-tabs">
+        <button class="tab-btn active" data-tab="announce">Announce</button>
+        <button class="tab-btn" data-tab="bulletin">Bulletin</button>
+        <button class="tab-btn" data-tab="poll">Poll</button>
+        <button class="tab-btn" data-tab="schedule">Schedule</button>
+    </div>
+
+    <!-- ───────────────── Announcements ───────────────── -->
+    <div class="tab-panel active" data-panel="announce">
+
+        <button class="composer-trigger" id="new-announcement-btn">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <span>Post an announcement</span>
+        </button>
+
+        <!-- Hidden by default; JS toggles the "open" class -->
+        <div class="composer-card" id="announcement-form">
+            <div class="composer-head">
+                <span>New Announcement</span>
+                <button class="composer-close" id="close-announcement-form">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                </button>
+            </div>
+            <div class="priority-picker">
+                <button class="priority-btn urgent active" data-priority="urgent">Urgent</button>
+                <button class="priority-btn notice" data-priority="notice">Notice</button>
+                <button class="priority-btn info" data-priority="info">Info</button>
+            </div>
+            <input type="text" class="composer-input" id="announcement-title" placeholder="Title...">
+            <textarea class="composer-textarea" id="announcement-body" rows="3" placeholder="Write your announcement..."></textarea>
+            <button class="composer-submit" id="post-announcement-btn">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m3 11 18-8-8 18-2-8-8-2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                Post Announcement
+            </button>
+        </div>
+
+        <!-- Filled by scripts/hive.js — join-request notifications render as
+             special cards with Accept/Decline buttons, ahead of normal posts. -->
+        <div id="announcement-list">
+            <p class="chart-empty">Loading announcements…</p>
+        </div>
+
+    </div>
+
+    <!-- ───────────────── Bulletin ───────────────── -->
+    <div class="tab-panel" data-panel="bulletin">
+
+        <div class="bulletin-toolbar">
+            <button class="composer-trigger flex" id="new-note-btn">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 20h4L18.5 9.5a2 2 0 0 0 0-2.8l-1.2-1.2a2 2 0 0 0-2.8 0L4 15v5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                <span>Post a note...</span>
+            </button>
+            <button class="composer-trigger narrow" id="new-photo-btn">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 8a2 2 0 0 1 2-2h1.5l1-1.5h7l1 1.5H18a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="12.5" r="3.2" stroke="currentColor" stroke-width="1.6"/></svg>
+                <span>Photo</span>
+            </button>
+            <input type="file" accept="image/*" id="note-photo-input" class="visually-hidden">
+        </div>
+
+        <!-- Hidden by default; JS toggles the "open" class -->
+        <div class="composer-card" id="note-form">
+            <div class="composer-head">
+                <span>New Note</span>
+                <button class="composer-close" id="close-note-form">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                </button>
+            </div>
+            <textarea class="composer-textarea" id="note-body" rows="3" placeholder="What's on your mind?"></textarea>
+            <div class="note-preview" id="note-image-preview"></div>
+            <div class="composer-row">
+                <button class="composer-secondary" id="note-add-photo-btn">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 8a2 2 0 0 1 2-2h1.5l1-1.5h7l1 1.5H18a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="12.5" r="3.2" stroke="currentColor" stroke-width="1.6"/></svg>
+                    Add Photo
+                </button>
+                <button class="composer-submit flex" id="post-note-btn">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m3 11 18-8-8 18-2-8-8-2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                    Post
+                </button>
+            </div>
+        </div>
+
+        <div class="bulletin-grid" id="bulletin-grid">
+            <p class="chart-empty">Loading notes…</p>
+        </div>
+
+    </div>
+
+    <!-- ───────────────── Poll ───────────────── -->
+    <div class="tab-panel" data-panel="poll">
+
+        <button class="composer-trigger" id="new-poll-btn">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <span>Create a poll</span>
+        </button>
+
+        <!-- Hidden by default; JS toggles the "open" class -->
+        <div class="composer-card" id="poll-form">
+            <div class="composer-head">
+                <span>New Poll</span>
+                <button class="composer-close" id="close-poll-form">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                </button>
+            </div>
+            <input type="text" class="composer-input" id="poll-question" placeholder="Ask a question...">
+            <div id="poll-option-inputs">
+                <input type="text" class="composer-input poll-option-input" placeholder="Option 1">
+                <input type="text" class="composer-input poll-option-input" placeholder="Option 2">
+            </div>
+            <button class="composer-secondary" id="add-poll-option-btn" type="button">+ Add another option</button>
+            <label class="poll-deadline-label">
+                Deadline <span class="optional">(optional)</span>
+                <input type="datetime-local" class="composer-input" id="poll-deadline">
+            </label>
+            <button class="composer-submit" id="submit-poll-btn">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m3 11 18-8-8 18-2-8-8-2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                Create Poll
+            </button>
+        </div>
+
+        <div id="poll-list">
+            <p class="chart-empty">Loading polls…</p>
+        </div>
+
+    </div>
+
+    <!-- ───────────────── Schedule ───────────────── -->
+    <div class="tab-panel" data-panel="schedule">
+
+        <div class="schedule-view-toggle" id="schedule-view-toggle">
+            <button class="schedule-view-btn active" data-view="weekly">Weekly Schedule</button>
+            <button class="schedule-view-btn" data-view="calendar">Room Calendar</button>
+        </div>
+
+        <!-- ===== WEEKLY (personal, recurring) VIEW ===== -->
+        <div id="schedule-weekly-view">
+
+            <div class="schedule-dropdown" id="schedule-dropdown">
+                <button class="schedule-dropdown-btn" id="schedule-dropdown-btn">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                    <span id="schedule-dropdown-label">Loading…</span>
+                    <svg class="chevron" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <!-- Filled by scripts/hive.js with one button per room member -->
+                <div class="schedule-dropdown-menu" id="schedule-dropdown-menu"></div>
+            </div>
+
+            <!-- Only shown when viewing your own schedule -->
+            <button class="composer-trigger" id="edit-schedule-btn" style="display:none;">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                <span>Edit Your Schedule</span>
+            </button>
+
+            <!-- Hidden by default; JS toggles the "open" class. Composer for adding
+                 a new session, including the visibility toggle. -->
+            <div class="composer-card" id="session-form">
+                <div class="composer-head">
+                    <span>New Session</span>
+                    <button class="composer-close" id="close-session-form">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                    </button>
+                </div>
+                <input type="text" class="composer-input" id="session-title" placeholder="What is it? (e.g. Study group)">
+                <div class="session-day-picker" id="session-day-picker">
+                    <button type="button" class="day-chip" data-day="0">Sun</button>
+                    <button type="button" class="day-chip" data-day="1">Mon</button>
+                    <button type="button" class="day-chip" data-day="2">Tue</button>
+                    <button type="button" class="day-chip" data-day="3">Wed</button>
+                    <button type="button" class="day-chip" data-day="4">Thu</button>
+                    <button type="button" class="day-chip" data-day="5">Fri</button>
+                    <button type="button" class="day-chip" data-day="6">Sat</button>
+                </div>
+                <div class="composer-row">
+                    <input type="time" class="composer-input" id="session-start">
+                    <input type="time" class="composer-input" id="session-end">
+                </div>
+                <label class="session-visibility-toggle">
+                    <input type="checkbox" id="session-visible" checked>
+                    <span>Visible to roommates <em>(unchecked = they'll see you're busy at this time, but not what for)</em></span>
+                </label>
+                <button class="composer-submit" id="submit-session-btn">Add Session</button>
+            </div>
+
+            <!-- The weekly grid itself: sticky time-label column + horizontally
+                 scrollable day columns (7 days is too wide for a phone screen at
+                 once — scrolling beats squeezing text unreadably small). Filled
+                 entirely by scripts/hive.js: renderWeeklyGrid(). -->
+            <div class="weekly-grid-scroll">
+                <div class="weekly-grid" id="weekly-grid">
+                    <p class="chart-empty">Loading schedule…</p>
+                </div>
+            </div>
+
+            <p class="schedule-note" id="schedule-note">Showing schedule for <strong>—</strong></p>
+        </div>
+
+        <!-- ===== ROOM CALENDAR (shared, one-off dates) VIEW ===== -->
+        <div id="schedule-calendar-view" style="display:none;">
+
+            <div class="calendar-header">
+                <button class="calendar-nav-btn" id="calendar-prev-month" aria-label="Previous month">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <span class="calendar-month-label" id="calendar-month-label">Month Year</span>
+                <button class="calendar-nav-btn" id="calendar-next-month" aria-label="Next month">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+            </div>
+
+            <div class="calendar-weekday-row">
+                <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+            </div>
+
+            <div class="calendar-grid" id="calendar-grid"></div>
+
+            <div class="calendar-day-detail" id="calendar-day-detail">
+                <div class="calendar-day-detail-head">
+                    <span id="calendar-selected-date-label">Select a day</span>
+                    <button class="composer-trigger small" id="add-event-btn">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                        Mark this day
+                    </button>
+                </div>
+
+                <div class="composer-card" id="event-form">
+                    <div class="composer-head">
+                        <span>New Event</span>
+                        <button class="composer-close" id="close-event-form">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                        </button>
+                    </div>
+                    <input type="text" class="composer-input" id="event-title" placeholder="What's happening? (e.g. House meeting)">
+                    <textarea class="composer-input" id="event-notes" rows="2" placeholder="Notes (optional)"></textarea>
+                    <button class="composer-submit" id="submit-event-btn">Add to Calendar</button>
+                </div>
+
+                <div id="calendar-events-list">
+                    <p class="chart-empty">No events on this day.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,223 @@
+<div id="finance-page">
+
+    <h1>Finance</h1>
+
+    <div class="tab-bar" id="finance-tabs">
+        <button class="tab-btn active" data-tab="overview">Overview</button>
+        <button class="tab-btn" data-tab="rent">Rent</button>
+        <button class="tab-btn" data-tab="bills">Bills</button>
+        <button class="tab-btn" data-tab="other">Other</button>
+        <button class="tab-btn" data-tab="shopping">Shopping</button>
+        <button class="tab-btn" data-tab="stats">Stats</button>
+    </div>
+
+    <!-- ───────────────── Overview ───────────────── -->
+    <div class="tab-panel active" data-panel="overview">
+
+        <div class="overview-grid one">
+            <div class="ov-card" id="ov-rent-card">
+                <div class="ov-top">
+                    <span class="ov-icon rent">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3 10h18" stroke="currentColor" stroke-width="1.6"/><path d="M7 15h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                    </span>
+                    <span class="ov-label">Rent</span>
+                </div>
+                <p class="ov-amount" id="ov-rent-amount">₱0.00</p>
+                <p class="ov-sub rent" id="ov-rent-sub">Loading…</p>
+            </div>
+        </div>
+
+        <div class="overview-grid two">
+            <div class="mini-stat">
+                <p class="mini-amount" id="ov-electric-amount">₱0.00</p>
+                <p class="mini-label">Electric</p>
+                <p class="mini-trend" id="ov-electric-status">—</p>
+            </div>
+            <div class="mini-stat">
+                <p class="mini-amount" id="ov-water-amount">₱0.00</p>
+                <p class="mini-label">Water</p>
+                <p class="mini-trend" id="ov-water-status">—</p>
+            </div>
+        </div>
+
+        <div class="chart-card">
+            <p class="card-title">Electric &amp; Water — 6 months</p>
+            <div class="bill-chart" id="overview-chart"></div>
+        </div>
+
+        <div class="insight-banner">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            <p><strong>Tip — </strong>Keep an eye on the Electric &amp; Water trend above; a steady climb is a good time to check for appliance leaks or AC overuse.</p>
+        </div>
+
+    </div>
+
+    <!-- ───────────────── Rent ───────────────── -->
+    <div class="tab-panel" data-panel="rent">
+
+        <div class="rent-card unpaid" id="rent-status-card">
+            <div class="rent-top">
+                <div>
+                    <p class="eyebrow">Monthly Rent</p>
+                    <p class="rent-amount" id="rent-amount">₱0.00</p>
+                </div>
+                <div class="rent-badge">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3 10h18" stroke="currentColor" stroke-width="1.6"/><path d="M7 15h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                </div>
+            </div>
+            <div class="rent-details">
+                <div class="rent-detail-row"><span>This month</span><span class="value status-text" id="rent-status-text">Unpaid</span></div>
+                <div class="rent-detail-row" id="rent-deadline-row"></div>
+            </div>
+            <button class="rent-toggle-btn" id="rent-toggle-btn" data-paid="false">Mark as Paid</button>
+        </div>
+
+        <div class="history-card">
+            <p class="card-title">Payment History</p>
+            <div class="history-list" id="rent-history-list">
+                <p class="chart-empty">No payments recorded yet.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ───────────────── Bills ───────────────── -->
+    <div class="tab-panel" data-panel="bills">
+
+        <div class="chart-card">
+            <p class="card-title">6-Month Bill History</p>
+            <div class="bill-chart" id="bills-chart"></div>
+        </div>
+
+        <div class="list-head">
+            <span class="list-summary">Electric &amp; water bills</span>
+            <button class="add-btn" id="add-bill-btn">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                Add Bill
+            </button>
+        </div>
+
+        <!-- Hidden by default; JS toggles the "open" class -->
+        <div class="composer-card" id="bill-form">
+            <div class="composer-head">
+                <span>New Bill</span>
+                <button class="composer-close" id="close-bill-form">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                </button>
+            </div>
+            <div class="priority-picker">
+                <button class="priority-btn info active" data-bill-type="electric">Electric</button>
+                <button class="priority-btn info" data-bill-type="water">Water</button>
+            </div>
+            <input type="number" class="composer-input" id="bill-amount" placeholder="Amount (₱)">
+            <input type="date" class="composer-input" id="bill-due-date">
+            <button class="composer-submit" id="submit-bill-btn">Add Bill</button>
+        </div>
+
+        <div class="bill-list" id="bill-list">
+            <p class="chart-empty">No bills added yet.</p>
+        </div>
+
+        <div class="scanner-card">
+            <p class="eyebrow">Receipt Scanner</p>
+            <button class="scan-btn" id="scan-receipt-btn" disabled title="Coming soon">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 8a2 2 0 0 1 2-2h1.5l1-1.5h7l1 1.5H18a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="12.5" r="3.2" stroke="currentColor" stroke-width="1.6"/></svg>
+                <span>Scan a bill or receipt — coming soon</span>
+            </button>
+            <p class="scan-hint">Auto-extract amount and due date</p>
+        </div>
+
+    </div>
+
+    <!-- ───────────────── Other Expenses ───────────────── -->
+    <div class="tab-panel" data-panel="other">
+
+        <div class="list-head">
+            <span class="list-summary" id="expense-summary">0 expenses</span>
+            <button class="add-btn" id="add-expense-btn">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                Add
+            </button>
+        </div>
+
+        <div class="composer-card" id="expense-form">
+            <div class="composer-head">
+                <span>New Expense</span>
+                <button class="composer-close" id="close-expense-form">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                </button>
+            </div>
+            <input type="text" class="composer-input" id="expense-name" placeholder="What was it for?">
+            <input type="number" class="composer-input" id="expense-amount" placeholder="Total amount (₱)">
+            <label class="session-visibility-toggle">
+                <input type="checkbox" id="expense-visible" checked>
+                <span>Visible to roommates <em>(unchecked = only you can see this expense — useful for personal spending logged in the same list)</em></span>
+            </label>
+            <button class="composer-submit" id="submit-expense-btn">Add Expense</button>
+        </div>
+
+        <div id="expense-list">
+            <p class="chart-empty">No shared expenses yet.</p>
+        </div>
+
+    </div>
+
+    <!-- ───────────────── Shopping List ───────────────── -->
+    <div class="tab-panel" data-panel="shopping">
+
+        <div class="list-head">
+            <span class="list-summary" id="shopping-summary">0 items</span>
+            <button class="add-btn" id="add-item-btn">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                Add item
+            </button>
+        </div>
+
+        <div class="composer-card" id="shopping-form">
+            <div class="composer-head">
+                <span>New Item</span>
+                <button class="composer-close" id="close-shopping-form">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                </button>
+            </div>
+            <input type="text" class="composer-input" id="shopping-name" placeholder="Item name">
+            <label class="session-visibility-toggle">
+                <input type="checkbox" id="shopping-visible" checked>
+                <span>Visible to roommates <em>(unchecked = only you can see this item on the list)</em></span>
+            </label>
+            <button class="composer-submit" id="submit-shopping-btn">Add Item</button>
+        </div>
+
+        <div id="shopping-list">
+            <p class="chart-empty">Nothing on the list yet.</p>
+        </div>
+
+    </div>
+
+    <!-- ───────────────── Statistics ───────────────── -->
+    <div class="tab-panel" data-panel="stats">
+
+        <div class="stats-total-card">
+            <p class="stats-total-label">Total spend this month</p>
+            <p class="stats-total-amount" id="stats-total-amount">₱0.00</p>
+            <p class="stats-total-change" id="stats-total-change">—</p>
+        </div>
+
+        <div class="chart-card">
+            <p class="card-title">Where it's going</p>
+            <div id="stats-category-breakdown"></div>
+        </div>
+
+        <div class="chart-card">
+            <p class="card-title">Utilities baseline (last 6 months)</p>
+            <div id="stats-averages"></div>
+        </div>
+
+        <div class="insight-banner" id="stats-insight">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            <p id="stats-insight-text">Loading insights…</p>
+        </div>
+
+    </div>
+
+</div>

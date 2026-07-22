@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hive</title>
+<link rel="stylesheet" href="style/style.css">
+</head>
+<body>
+
+    <!-- AUTH / ONBOARDING ROOT
+         auth.js renders the landing/login/signup/role/room screens in here.
+         It's a totally separate container from #app so we can swap between
+         "logged out" and "logged in" experiences without them fighting over
+         the same DOM. -->
+    <div id="auth-root"></div>
+
+    <div id="app" style="display:none;">
+
+        <!-- MOBILE TOPBAR — only visible at narrow widths (see CSS). Tapping
+             the logo here opens the sidebar as an overlay drawer, since the
+             real sidebar (and its own logo) is off-screen until then. -->
+        <div id="mobile-topbar">
+            <button id="mobile-topbar-toggle" aria-label="Open menu">
+                <span class="logo-mark">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L21 7V17L12 22L3 17V7L12 2Z" stroke="white" stroke-width="1.6" stroke-linejoin="round"/>
+                        <path d="M12 8L16.5 10.5V15.5L12 18L7.5 15.5V10.5L12 8Z" fill="white"/>
+                    </svg>
+                </span>
+                <span class="mobile-topbar-title">Hive</span>
+            </button>
+            <button class="bell-btn notification-bell" aria-label="Notifications">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 9a6 6 0 0 1 12 0c0 4 1.5 5.5 1.5 5.5H4.5S6 13 6 9Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M10 18a2 2 0 0 0 4 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+                <span class="bell-badge" style="display:none;">0</span>
+            </button>
+        </div>
+
+        <!-- Tapping outside the open drawer (on mobile) closes it. Hidden/
+             non-interactive on desktop and whenever the sidebar is closed. -->
+        <div id="sidebar-backdrop"></div>
+
+        <!-- SIDEBAR -->
+        <div id="main-sidebar">
+            <div id="sidebar-content">
+                <div class="sidebar-top-row">
+                    <h1 id="sidebar-logo-toggle">
+                        <span class="logo-mark">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L21 7V17L12 22L3 17V7L12 2Z" stroke="white" stroke-width="1.6" stroke-linejoin="round"/>
+                                <path d="M12 8L16.5 10.5V15.5L12 18L7.5 15.5V10.5L12 8Z" fill="white"/>
+                            </svg>
+                        </span>
+                        Hive
+                    </h1>
+                    <button class="bell-btn notification-bell" aria-label="Notifications">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 9a6 6 0 0 1 12 0c0 4 1.5 5.5 1.5 5.5H4.5S6 13 6 9Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M10 18a2 2 0 0 0 4 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+                        <span class="bell-badge" style="display:none;">0</span>
+                    </button>
+                </div>
+                <h6 class="location" id="sidebar-location">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21s-7-6.2-7-11.2A7 7 0 0 1 19 9.8C19 14.8 12 21 12 21Z" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="9.5" r="2.4" stroke="currentColor" stroke-width="1.6"/></svg>
+                    <span id="sidebar-location-text">location</span>
+                </h6>
+            </div>
+            <div id="sidebar-btns-cont">
+                <button class="sidebar-btn active" data-target="pages/dashboard.html">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 11.5 12 4l8 7.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 10v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    Home
+                </button>
+                <button class="sidebar-btn" data-target="pages/finances.html">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="7" width="18" height="13" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M8 7V5.5A1.5 1.5 0 0 1 9.5 4h5A1.5 1.5 0 0 1 16 5.5V7" stroke="currentColor" stroke-width="1.7"/><path d="M3 12h18" stroke="currentColor" stroke-width="1.7"/></svg>
+                    Finance
+                </button>
+                <button class="sidebar-btn" data-target="pages/hive.html">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.7"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="17.5" cy="9" r="2.4" stroke="currentColor" stroke-width="1.7"/><path d="M15.8 14.3c2.6.3 4.7 2.6 4.7 5.7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+                    Hive
+                </button>
+                <button class="sidebar-btn" data-target="pages/personal.html">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.7"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M9 13.5v3M15 13.5v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    Personal
+                </button>
+            </div>
+
+            <div id="sidebar-footer">
+                <button id="sidebar-footer-btn">
+                    <div class="avatar" id="sidebar-avatar">U</div>
+                    <div class="who">
+                        <span class="who-name" id="sidebar-who-name">User Name</span>
+                        <span class="who-meta">Settings</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <div class="container-view">
+            <main id="main-content">
+                 <p>Loading Content...</p>
+            </main>
+        </div>
+    </div>
+
+    <!-- SETTINGS MODAL -->
+    <div id="settings-modal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-head">
+                <span>Settings</span>
+                <button class="composer-close" id="close-settings">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                </button>
+            </div>
+            <div id="settings-body"></div>
+        </div>
+    </div>
+
+    <!-- RENT DUE DAY MODAL -->
+    <div id="rent-due-day-modal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-head">
+                <span>Set Rent Deadline</span>
+                <button class="composer-close" id="close-rent-due-day">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                </button>
+            </div>
+            <div id="rent-due-day-body">
+                <p class="auth-sub" style="margin-top:0;">Which day of the month is rent due? This repeats every month.</p>
+                <div class="auth-field">
+                    <label>Day of month (1&ndash;31)</label>
+                    <input type="number" id="rent-due-day-input" min="1" max="31" placeholder="e.g. 5">
+                </div>
+                <p class="auth-error" id="rent-due-day-error"></p>
+                <button class="composer-submit flex" id="save-rent-due-day">Save</button>
+                <button class="auth-btn secondary full" id="clear-rent-due-day" style="margin-top:10px;">Clear Deadline</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/api.js"></script>
+    <script src="scripts/offline.js"></script>
+    <script src="scripts/auth.js"></script>
+    <script src="scripts/settings.js"></script>
+    <script src="scripts/chart.js"></script>
+    <script src="scripts/dashboard.js"></script>
+    <script src="scripts/finances.js"></script>
+    <script src="scripts/personal.js"></script>
+    <script src="scripts/hive.js"></script>
+    <script src="scripts/app.js"></script>
+</body>
+</html>

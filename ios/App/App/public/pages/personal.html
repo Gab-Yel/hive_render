@@ -1,0 +1,245 @@
+<div id="personal-page">
+
+    <h1>Personal</h1>
+
+    <div class="tab-bar" id="personal-tabs">
+        <button class="tab-btn active" data-tab="journal">Journal</button>
+        <button class="tab-btn" data-tab="allowance">Allowance</button>
+        <button class="tab-btn" data-tab="savings">Savings &amp; Debts</button>
+        <button class="tab-btn" data-tab="pstats">Stats</button>
+    </div>
+
+    <!-- ───────────────── Journal ───────────────── -->
+    <div class="tab-panel active" data-panel="journal">
+
+        <div class="overview-grid two">
+            <div class="mini-stat">
+                <p class="mini-amount" id="pj-today-amount">₱0.00</p>
+                <p class="mini-label">Spent today</p>
+                <p class="mini-trend" id="pj-today-budget">—</p>
+            </div>
+            <div class="mini-stat">
+                <p class="mini-amount" id="pj-month-amount">₱0.00</p>
+                <p class="mini-label">Spent this month</p>
+                <p class="mini-trend" id="pj-month-remaining">—</p>
+            </div>
+        </div>
+
+        <div class="insight-banner warning" id="pj-warning-banner" style="display:none;">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 9v4M12 17h.01M10.3 3.9 2.6 17.5A1.5 1.5 0 0 0 4 20h16a1.5 1.5 0 0 0 1.3-2.5L13.7 3.9a1.5 1.5 0 0 0-2.6 0Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            <p id="pj-warning-text"></p>
+        </div>
+
+        <div class="chart-card">
+            <p class="card-title">Fixed daily expenses</p>
+            <p class="card-subtitle">Tap one to log it fast — you'll just confirm the amount.</p>
+            <div class="shortcut-grid" id="shortcut-grid">
+                <button class="shortcut-btn" data-name="Transport" data-icon="transport">
+                    <span class="shortcut-icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 16V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="3" y="16" width="18" height="3" rx="1" stroke="currentColor" stroke-width="1.6"/><circle cx="7.5" cy="19.5" r="1.4" fill="currentColor"/><circle cx="16.5" cy="19.5" r="1.4" fill="currentColor"/></svg></span>
+                    Transport
+                </button>
+                <button class="shortcut-btn" data-name="Food" data-icon="food">
+                    <span class="shortcut-icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 3v7a2 2 0 0 0 2 2v9M6 3v7M9 3v7M6 6h3M17 3c-2 1-2 4-2 6a2 2 0 0 0 2 2v10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    Food
+                </button>
+                <button class="shortcut-btn" data-name="Load / Data" data-icon="load">
+                    <span class="shortcut-icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="2" width="12" height="20" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M10 18h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+                    Load/Data
+                </button>
+                <button class="shortcut-btn" data-name="Allowance top-up" data-icon="coffee">
+                    <span class="shortcut-icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 9h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V9Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17" stroke="currentColor" stroke-width="1.6"/><path d="M8 3c-.6.8-.6 1.3 0 2M11 3c-.6.8-.6 1.3 0 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+                    Coffee/Snacks
+                </button>
+                <button class="shortcut-btn add-custom" id="add-shortcut-expense">
+                    <span class="shortcut-icon plus"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+                    Custom
+                </button>
+            </div>
+        </div>
+
+        <!-- Quick-confirm composer for a shortcut tap: name/category are
+             already decided, this only asks for the amount. -->
+        <div class="composer-card" id="quick-expense-form">
+            <div class="composer-head">
+                <span id="quick-expense-title">New Expense</span>
+                <button class="composer-close" id="close-quick-expense">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                </button>
+            </div>
+            <input type="number" class="composer-input" id="quick-expense-amount" placeholder="Amount (₱)" inputmode="decimal">
+            <button class="composer-submit" id="submit-quick-expense">Log Expense</button>
+        </div>
+
+        <div class="list-head">
+            <span class="list-summary">Spending journal — this month</span>
+            <button class="add-btn" id="add-journal-btn">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                Add
+            </button>
+        </div>
+
+        <div class="composer-card" id="journal-form">
+            <div class="composer-head">
+                <span>New Journal Entry</span>
+                <button class="composer-close" id="close-journal-form">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                </button>
+            </div>
+            <input type="text" class="composer-input" id="journal-name" placeholder="What was it for?">
+            <input type="number" class="composer-input" id="journal-amount" placeholder="Amount (₱)" inputmode="decimal">
+            <select class="composer-input" id="journal-category">
+                <option value="fixed">Fixed (recurring necessity)</option>
+                <option value="food">Food</option>
+                <option value="transport">Transport</option>
+                <option value="shopping">Shopping</option>
+                <option value="entertainment">Entertainment</option>
+                <option value="other" selected>Other</option>
+            </select>
+            <input type="date" class="composer-input" id="journal-date">
+            <button class="composer-submit" id="submit-journal-btn">Add Entry</button>
+        </div>
+
+        <div id="journal-list">
+            <p class="chart-empty">No expenses logged yet.</p>
+        </div>
+
+    </div>
+
+    <!-- ───────────────── Allowance ───────────────── -->
+    <div class="tab-panel" data-panel="allowance">
+
+        <div class="chart-card">
+            <p class="card-title">Monthly allowance / limit</p>
+            <p class="card-subtitle">Set a limit and Hive will warn you as you get close to it.</p>
+            <div class="allowance-set-row">
+                <input type="number" class="composer-input" id="allowance-input" placeholder="e.g. 5000" inputmode="decimal">
+                <button class="composer-submit flex" id="save-allowance-btn">Save</button>
+            </div>
+            <div class="budget-progress" id="allowance-progress" style="display:none;">
+                <div class="budget-progress-track"><div class="budget-progress-fill" id="allowance-progress-fill"></div></div>
+                <p class="budget-progress-label" id="allowance-progress-label">—</p>
+            </div>
+        </div>
+
+        <div class="list-head">
+            <span class="list-summary" id="income-summary">Income</span>
+            <button class="add-btn" id="add-income-btn">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                Add
+            </button>
+        </div>
+
+        <div class="composer-card" id="income-form">
+            <div class="composer-head">
+                <span>New Income</span>
+                <button class="composer-close" id="close-income-form">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                </button>
+            </div>
+            <input type="text" class="composer-input" id="income-name" placeholder="Source (e.g. Allowance from home)">
+            <input type="number" class="composer-input" id="income-amount" placeholder="Amount (₱)" inputmode="decimal">
+            <button class="composer-submit" id="submit-income-btn">Add Income</button>
+        </div>
+
+        <div id="income-list">
+            <p class="chart-empty">No income logged yet.</p>
+        </div>
+
+    </div>
+
+    <!-- ───────────────── Savings & Debts ───────────────── -->
+    <div class="tab-panel" data-panel="savings">
+
+        <div class="overview-grid two">
+            <div class="mini-stat">
+                <p class="mini-amount savings" id="savings-total">₱0.00</p>
+                <p class="mini-label">Total savings</p>
+            </div>
+            <div class="mini-stat">
+                <p class="mini-amount debt" id="debt-total">₱0.00</p>
+                <p class="mini-label">Unpaid debts</p>
+            </div>
+        </div>
+
+        <div class="list-head">
+            <span class="list-summary">Savings</span>
+            <button class="add-btn" id="add-savings-btn">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                Add
+            </button>
+        </div>
+        <div class="composer-card" id="savings-form">
+            <div class="composer-head">
+                <span>New Savings Bucket</span>
+                <button class="composer-close" id="close-savings-form">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                </button>
+            </div>
+            <input type="text" class="composer-input" id="savings-name" placeholder="e.g. Emergency fund">
+            <input type="number" class="composer-input" id="savings-amount" placeholder="Amount (₱)" inputmode="decimal">
+            <button class="composer-submit" id="submit-savings-btn">Add Savings</button>
+        </div>
+        <div id="savings-list">
+            <p class="chart-empty">No savings logged yet.</p>
+        </div>
+
+        <div class="list-head">
+            <span class="list-summary">Debts</span>
+            <button class="add-btn" id="add-debt-btn">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                Add
+            </button>
+        </div>
+        <div class="composer-card" id="debt-form">
+            <div class="composer-head">
+                <span>New Debt</span>
+                <button class="composer-close" id="close-debt-form">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                </button>
+            </div>
+            <input type="text" class="composer-input" id="debt-name" placeholder="Owed to who / what for">
+            <input type="number" class="composer-input" id="debt-amount" placeholder="Amount (₱)" inputmode="decimal">
+            <button class="composer-submit" id="submit-debt-btn">Add Debt</button>
+        </div>
+        <div id="debt-list">
+            <p class="chart-empty">No debts logged yet.</p>
+        </div>
+
+    </div>
+
+    <!-- ───────────────── Stats ───────────────── -->
+    <div class="tab-panel" data-panel="pstats">
+
+        <div class="health-score-card" id="health-score-card">
+            <p class="card-title">Financial health score</p>
+            <div class="health-score-row">
+                <p class="health-score-value" id="health-score-value">—</p>
+                <span class="health-score-tag" id="health-score-tag">—</span>
+            </div>
+            <div class="budget-progress-track thick"><div class="budget-progress-fill" id="health-score-fill"></div></div>
+        </div>
+
+        <div class="overview-grid two">
+            <div class="mini-stat">
+                <p class="mini-amount" id="stat-avg-daily">₱0.00</p>
+                <p class="mini-label">Avg. daily spending</p>
+            </div>
+            <div class="mini-stat">
+                <p class="mini-amount" id="stat-savings-rate">—</p>
+                <p class="mini-label">Savings rate</p>
+            </div>
+        </div>
+
+        <div class="chart-card">
+            <p class="card-title">Largest expense categories</p>
+            <div id="pstats-category-breakdown"><p class="chart-empty">No expenses logged yet.</p></div>
+        </div>
+
+        <div class="insight-banner" id="pstats-insight">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            <p id="pstats-insight-text">Loading insights…</p>
+        </div>
+
+    </div>
+
+</div>
